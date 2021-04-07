@@ -24,3 +24,16 @@ pip freeze > requirements.txt
 ```
 flask run
 ```
+
+4. (Frontend) Install Nodejs if not yet installed from https://nodejs.org/en/
+
+5. (Frontend) Go to /frontend and install required frontend modules
+```
+npm install
+```
+
+6. (Frontend) Run React
+```
+npm start
+```
+You can also refer to readme under /frontend/
