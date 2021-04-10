@@ -24,19 +24,20 @@ Postman collection for testing (i.e. requests filled with parameters already): h
 * Method: POST
 * Parameters: (passed in body as form data)
 
-| Parameter name | Type  | Default | Note |
-| -------- | --------  | - | - | - |
+| Parameter Name | Type  | Default | Note |
+| -------- | --------  | - | -|
 | departure_date | str  | (required) | e.g. 2021-04-20
 | return_date | str  | (required) | e.g. 2021-04-23
 | city | str  | (required) | e.g. Taipei
 | price_level  | int | 2 | 0 to 4; 0=free|
 | outdoor | float |  0.5 | 0.0 to 1.0
 | compactness | float | 0.5 | 0.0 to 1.0
-| car | bool | True 
-| scooter | bool | True 
-| bike | bool | True 
+| car | bool | True
+| scooter | bool | True
+| bike | bool | True
 | place_ids | str | None | e.g. A5; ordered list*; all selected place ids
 | schedule | str | None | e.g. R3; ordered list*; the ids in the current schedule
+
 *To send an ordered list of values, fill the keys multiple times with values in order, such as `['schedule':'R6', 'schedule':'A3']`.
 
 If no `place_ids` nor `schedule` is sent, it makes a new plan. Otherwise, it updates the given `schedule` with the given `place_ids`.
@@ -49,7 +50,7 @@ If no `place_ids` nor `schedule` is sent, it makes a new plan. Otherwise, it upd
 | places  | a list of `place`s | list(dict) |
 | schedule  | a list of `id`s | list(str) |
 
-See the format of a `place` [here](https://developers.google.com/maps/documentation/places/web-service/search#PlaceSearchResults). 
+See the format of a `place` [here](https://developers.google.com/maps/documentation/places/web-service/search#PlaceSearchResults).
 
 An additional parameter added to each `place` is `id` (in `str`), which is in the format "one uppercase alphabet + a number", where the alphabet is one of `A`ttractions, `R`estaurants. For example, `R924`, `A1302`, and `H78`.
 
@@ -1169,7 +1170,7 @@ Example return values:
 
 ## Interface for Backend Planner
 Input:
-| Name | Type | 
+| Name | Type |
 |-|-|
 | n_days | int
 | price_level | int; {0, 1, 2, 3, 4}
