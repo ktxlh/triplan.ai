@@ -18,13 +18,11 @@ class PlanApiHandler(Resource):
     parser.add_argument('price_level', type=int, default=2)         # The price level of the place, on a scale of 0 to 4
     parser.add_argument('outdoor', type=float, default=0.5)         # 0.0 to 1.0
     parser.add_argument('compactness', type=float, default=0.5)     # 0.0 to 1.0
-    # preferences - transportation  ## TODO: backend won't use these, right?
-    parser.add_argument('car', type=bool, default=True)
-    parser.add_argument('scooter', type=bool, default=True)
-    parser.add_argument('bike', type=bool, default=True)
+    parser.add_argument('start_time', type=str, default='0930')     # "0930" for 09:30
+    parser.add_argument('back_time', type=str, default='2100')      # "2100" for 21:00
 
     # for update only
-    parser.add_argument('place_ids', type=str, action='append')        # id of the seleceted places (multiple & ordered)
+    parser.add_argument('place_ids', type=str, action='append')     # id of the seleceted places (multiple & ordered)
     parser.add_argument('schedule', type=str, action='append')      # id of the current schedule (multiple & ordered)
 
     args = parser.parse_args()
@@ -35,7 +33,7 @@ class PlanApiHandler(Resource):
     if update:
       message = "Update with place_ids: {} and schedule: {}".format(','.join(args['place_ids']), ','.join(args['schedule']))
     else:
-      message = "Make a new plan from {} to {} in {}".format(args['departure_date'], args['return_date'], args['city'])
+      message = "Make a new plan from {} to {} in {} ({}~{})".format(args['departure_date'], args['return_date'], args['city'], args['start_time'], args['back_time'])
 
     dd = [int(e) for e in args['departure_date'].split('-')]
     rd = [int(e) for e in args['return_date'].split('-')]
@@ -43,7 +41,7 @@ class PlanApiHandler(Resource):
 
     places, schedule = dummy_planner(
         n_days, args['price_level'], args['outdoor'], args['compactness'], 
-        args['car'], args['scooter'], args['bike'], 
+        args['start_time'], args['back_time'],
         args['place_ids'], args['schedule']
     )
     final_ret = {

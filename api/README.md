@@ -32,9 +32,8 @@ Postman collection for testing (i.e. requests filled with parameters already): h
 | price_level  | int | 2 | 0 to 4; 0=free|
 | outdoor | float |  0.5 | 0.0 to 1.0
 | compactness | float | 0.5 | 0.0 to 1.0
-| car | bool | True
-| scooter | bool | True
-| bike | bool | True
+| start_time | str | 0930 | "0930" for 09:30
+| back_time | str | 2100 | "2100" for 21:00
 | place_ids | str | None | e.g. A5; ordered list*; all selected place ids
 | schedule | str | None | e.g. R3; ordered list*; the ids in the current schedule
 

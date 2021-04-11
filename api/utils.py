@@ -1,6 +1,6 @@
 import os, json, random
 
-def dummy_planner(n_days, price_level, outdoor, compactness, car, scooter, bike, place_ids = None, schedule = None):
+def dummy_planner(n_days, price_level, outdoor, compactness, start_time, back_time, place_ids = None, schedule = None):
 
     data_path = os.path.join(os.getcwd(), 'data')
     objects = {
