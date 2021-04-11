@@ -1175,9 +1175,8 @@ Input:
 | price_level | int; {0, 1, 2, 3, 4}
 | outdoor | float; [0.0, 1.0]
 | compactness | float; [0.0, 1.0]
-| car | bool
-| scooter | bool
-| bike | bool
+| start_time | str
+| back_time | str 
 | place_ids | None or list(str); a list of `id`s
 | schedule | None or list(str); a list of `id`s
 
