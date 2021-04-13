@@ -65,17 +65,6 @@ export default function Preferences() {
         min = {0}
         max = {1}
       />
-      <Typography id="compact-typo" gutterBottom>
-        Compactness
-      </Typography>
-      <Slider 
-        value={compactness} 
-        onChange={handleCompactnessChange} 
-        aria-labelledby="continuous-slider" 
-        step= {0.01}
-        min = {0}
-        max = {1}
-      />
       <form className={classes.container} noValidate>
         <TextField
           id="departHrMin"
