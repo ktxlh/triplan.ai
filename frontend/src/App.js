@@ -7,9 +7,15 @@ import Preferences from './Component/Preferences';
 function App() {
   return (
     <div className="App">
-      <SimpleSelect></SimpleSelect>
-      <MaterialUIPickers></MaterialUIPickers>
-      <Preferences></Preferences>
+      <div className="App-header">Travel Planner</div>
+      <div className="input main">
+        <SimpleSelect></SimpleSelect>
+        <MaterialUIPickers></MaterialUIPickers>
+      </div>
+      <div className="input pref">
+        <p>other preferences</p>
+        <Preferences></Preferences>
+      </div>
     </div>
   );
 }
