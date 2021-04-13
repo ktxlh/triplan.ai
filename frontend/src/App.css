@@ -19,16 +19,32 @@
   color: black;
 }
 
-.main {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+.output {
+  padding: 2% 6% 0 6%;
+  font-size: 16px;
+  color: black;
 }
 
-.pref {
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.column {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+}
+
+.button:hover {
+  background-color: lightblue;
+  border: none;
 }
