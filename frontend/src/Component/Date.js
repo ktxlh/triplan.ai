@@ -4,17 +4,17 @@ import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-export default function MaterialUIPickers() {
-  // The first commit of Material-UI
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2021-04-10'));
+export default function DatePicker(props) {
+  
+  const handleDepartureDateChange = (date) => {
+    props.departureDateOnChange(date);
+  };
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    alert(date) // Return to api when change
+  const handleReturnDateChange = (date) => {
+    props.returnDateOnChange(date);
   };
 
   return (
@@ -27,24 +27,23 @@ export default function MaterialUIPickers() {
           margin="normal"
           id="Departure Date"
           label="Departure Date"
-          value={selectedDate}
-          onChange={handleDateChange}
+          value={props.departureDate}
+          onChange={handleDepartureDateChange}
           KeyboardButtonProps={{
             'aria-label': 'change date',
           }}
         />
         <KeyboardDatePicker
           margin="normal"
-          id="Arrival Date"
-          label="Arrival Date"
+          id="Return Date"
+          label="Return Date"
           format="MM/dd/yyyy"
-          value={selectedDate}
-          onChange={handleDateChange}
+          value={props.returnDate}
+          onChange={handleReturnDateChange}
           KeyboardButtonProps={{
             'aria-label': 'change date',
           }}
         />
-
       </Grid>
     </MuiPickersUtilsProvider>
   );

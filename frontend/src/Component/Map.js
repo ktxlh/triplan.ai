@@ -1,31 +1,48 @@
 /*global google*/
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import {
   withGoogleMap,
-  withScriptjs,
   GoogleMap,
   DirectionsRenderer
 } from "react-google-maps";
-class Map extends Component {
-  state = {
+
+export function Map(props) {
+  const [state, setState] = useState({
     directions: null
-  };
-
-  componentDidMount() {
+  });
+  
+  useEffect(()=>{
     const directionsService = new google.maps.DirectionsService();
+    const backupOrigin = { lat: 40.756795, lng: -73.954298 };
+    const backupDestination = { lat: 41.756795, lng: -78.954298 };
 
-    const origin = { lat: 40.756795, lng: -73.954298 };
-    const destination = { lat: 41.756795, lng: -78.954298 };
+    if(props.allPlaces[0]) console.log(props.allPlaces[0].geometry.location);
 
+    const beginId = props.schedule[0] ? props.schedule[0] : null;
+    const endId = (props.schedule.length > 0 && props.schedule[props.schedule.length-1]) ?
+                            props.schedule[props.schedule.length-1] : null;
+    const beginLocation = beginId ? props.allPlaces.find(element => element.id == beginId).geometry.location : backupOrigin;
+    const endLocation = endId ? props.allPlaces.find(element => element.id == endId).geometry.location : backupDestination;
+    const wayPoints = [];
+    if(props.schedule && props.allPlaces) {
+      for (var i = 1; i < props.schedule.length-1; ++i) {
+        const loc = props.allPlaces.find(element => element.id == props.schedule[i]).geometry;
+        const locObject = {
+          location: new google.maps.LatLng(loc.location.lat,  loc.location.lng)// location: new google.maps.LatLng(loc., loc.lng)
+        }
+        wayPoints.push(locObject);
+      }  
+    }
     directionsService.route(
       {
-        origin: origin,
-        destination: destination,
+        origin: beginLocation,
+        destination: endLocation,
+        waypoints: wayPoints,
         travelMode: google.maps.TravelMode.DRIVING
       },
       (result, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
-          this.setState({
+        setState({
             directions: result
           });
         } else {
@@ -33,16 +50,16 @@ class Map extends Component {
         }
       }
     );
-  }
+  })
 
-  render() {
-    const GoogleMapExample = withGoogleMap(props => (
+    const GoogleMapExample = withGoogleMap((props) => (
       <GoogleMap
         defaultCenter={{ lat: 40.756795, lng: -73.954298 }}
         defaultZoom={13}
       >
         <DirectionsRenderer
-          directions={this.state.directions}
+          directions={state.directions}
+          {...props}
         />
       </GoogleMap>
     ));
@@ -52,10 +69,10 @@ class Map extends Component {
         <GoogleMapExample
           containerElement={<div style={{ height: `500px`, width: "500px" }} />}
           mapElement={<div style={{ height: `100%` }} />}
+          {...props}
         />
       </div>
     );
-  }
+
 }
 
-export default Map;

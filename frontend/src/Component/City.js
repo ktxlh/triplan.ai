@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -16,12 +15,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleSelect() {
+export default function City(props) {
   const classes = useStyles();
-  const [city, setCity] = React.useState('');
 
   const handleChange = (event) => {
-    setCity(event.target.value);
+    props.onChange(event.target.value);
   };
 
   return (
@@ -31,7 +29,7 @@ export default function SimpleSelect() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={city}
+          value={props.city}
           onChange={handleChange}
         >
           <MenuItem value={'hongkong'}>Hong Kong</MenuItem>
