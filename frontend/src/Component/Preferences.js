@@ -14,19 +14,29 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
-export default function Preferences() {
+export default function Preferences(props) {
   const classes = useStyles();
-
-  const [outdoor, setOutdoor] = React.useState(0.5);
-  const [compactness, setCompactness] = React.useState(0.5);
-
-  const handleOutdoorChange = (event, newValue) => {
-    setOutdoor(newValue);
-  };
   
+  const handlePriceLevelChange = (event, newValue) => {
+    props.priceLevelOnChange(newValue);
+  }
+
+  const handleOutDoorChange = (event, newValue) => {
+    props.outDoorOnChange(newValue);
+  }
+
   const handleCompactnessChange = (event, newValue) => {
-    setCompactness(newValue);
-  };
+    props.compactnessOnChange(newValue);
+  }
+
+  const handleStartTimeChange = (event, newValue) => {
+    props.startTimeOnChange(newValue);
+  }
+
+  const handleBackTimeChange = (event, newValue) => {
+    props.backTimeOnChange(newValue);
+  }
+
   
   return (
     <div className={classes.root}>
@@ -40,15 +50,17 @@ export default function Preferences() {
         valueLabelDisplay="auto"
         step={1}
         marks
-        min={1}
-        max={3}
+        min={0}
+        max={4}
+        value={props.priceLevel}
+        onChange={handlePriceLevelChange}
       />
       <Typography id="outdoor-typo" gutterBottom>
         Prefer Indoor Outdoor
       </Typography>
       <Slider 
-        value={outdoor} 
-        onChange={handleOutdoorChange} 
+        value={props.outDoor} 
+        onChange={handleOutDoorChange} 
         aria-labelledby="continuous-slider" 
         step= {0.01}
         min = {0}
@@ -58,7 +70,7 @@ export default function Preferences() {
         Compactness
       </Typography>
       <Slider 
-        value={compactness} 
+        value={props.compactness} 
         onChange={handleCompactnessChange} 
         aria-labelledby="continuous-slider" 
         step= {0.01}
@@ -70,7 +82,6 @@ export default function Preferences() {
           id="departHrMin"
           label="Depart Time"
           type="time"
-          defaultValue="07:30"
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
@@ -78,13 +89,14 @@ export default function Preferences() {
           inputProps={{
             step: 300, // 5 min
           }}
+          value={props.startTime}
+          onChange={handleStartTimeChange}
         />
         <br></br>
         <TextField
           id="backHrMin"
           label="Back Time"
           type="time"
-          defaultValue="18:30"
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
@@ -92,6 +104,8 @@ export default function Preferences() {
           inputProps={{
             step: 300, // 5 min
           }}
+          value={props.backTime}
+          onChange={handleBackTimeChange}
         />
       </form>
     </div>
