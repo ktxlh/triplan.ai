@@ -155,15 +155,10 @@ def travel_scheduler(num_days, start_time, back_time, compactness, candrate, typ
         if day == 0: day_start = start_time
         if day == num_days-1: day_end = back_time
         day_type_list, types = get_typelist_by_compactness(compactness, day_start, day_end)
-        spots = attractions[day*num_attractions: (day+1)*num_attractions] + restaurants[day*candrate: (day+1)*candrate] + [hotels[0]]
+        spots = attractions[day*num_attractions: (day+1)*num_attractions] + restaurants[day*candrate*2: (day+1)*candrate*2] + [hotels[0]]
         schedule = schedule + shortest_paths_recommandation(spots, day_type_list)
     places = attractions + restaurants + hotels
-    return {
-        "status": "Success",
-        "message": "Make a new {:d} day(s) plan in Taipei".format(num_days),
-        "places": places,
-        "schedule": schedule
-    }
+    return places, schedule
 
 # Main planner function
 def travel_planner(num_days, price_level, outdoor, compactness, start_time, back_time, place_ids = None, schedule = None):
@@ -186,7 +181,7 @@ def travel_planner(num_days, price_level, outdoor, compactness, start_time, back
 
     else:
         places = [objects[place_id[0]][int(place_id[1:])] for place_id in place_ids]
-        candrate = 2
+        candrate = 1
         type_list, num_attractions = get_typelist_by_compactness(compactness, "0000", "2400")
         attractions = get_attractions_by_outdoor(objects['A'], outdoor, num_days * num_attractions * candrate, places = places)
         restaurants = get_restaurants_by_price_level(objects['R'], price_level, num_days * candrate * 2, places = places)
