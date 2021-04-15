@@ -7,7 +7,7 @@ import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
     minWidth: 120,
   },
   selectEmpty: {
@@ -32,9 +32,9 @@ export default function City(props) {
           value={props.city}
           onChange={handleChange}
         >
-          <MenuItem value={'hongkong'}>Hong Kong</MenuItem>
+          {/* <MenuItem value={'hongkong'}>Hong Kong</MenuItem> */}
           <MenuItem value={'taipei'}>Taipei</MenuItem>
-          <MenuItem value={'shenzhen'}>Shenzhen</MenuItem>
+          {/* <MenuItem value={'shenzhen'}>Shenzhen</MenuItem> */}
         </Select>
       </FormControl>
     </div>

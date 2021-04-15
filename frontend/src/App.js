@@ -14,7 +14,7 @@ function App() {
 
   const [show, toggleShow] = useState(false);
 
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState("taipei");
   const [departureDate, setDepartureDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
   const [priceLevel, setPriceLevel] = useState(2);
@@ -61,15 +61,15 @@ function App() {
           departureDateOnChange={setDepartureDate}
           returnDate={returnDate}
           returnDateOnChange={setReturnDate}
-          ></DatePicker>
+        ></DatePicker>
       </div>
-      <div className = "input column">
+      <div className = "input-indented column">
         <Button variant="contained" onClick={onSearchClicked}>Search</Button>
       </div>
-      <div className="input column">
-        <button className="button" onClick={() => toggleShow(!show)}>
+      <div className="input-indented column">
+        <Button onClick={() => toggleShow(!show)}>
           {show? "collapse": "other preferences"}
-        </button>
+        </Button>
         {show && <Preferences
                     priceLevel={priceLevel} priceLevelOnChange={setPriceLevel}
                     outDoor={outDoor} outDoorOnChange={setOutdoor}
@@ -79,10 +79,10 @@ function App() {
                     />}
       </div>
       <div className="output row">
-        <AttractionList
-          allPlaces={allPlaces}
-          schedule={schedule}
-          onChange={handleTick}
+          <AttractionList
+            allPlaces={allPlaces}
+            schedule={schedule}
+            onChange={handleTick}
           />
           <Schedule
             schedule={schedule}

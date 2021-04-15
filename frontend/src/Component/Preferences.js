@@ -39,46 +39,10 @@ export default function Preferences(props) {
 
   
   return (
-    <div className={classes.root}>
-      <Typography id="budget-typo" gutterBottom>
-        Budget
-      </Typography>
-      <Slider
-        defaultValue={2}
-        getAriaValueText={valuetext}
-        aria-labelledby="budget-slider"
-        valueLabelDisplay="auto"
-        step={1}
-        marks
-        min={0}
-        max={4}
-        value={props.priceLevel}
-        onChange={handlePriceLevelChange}
-      />
-      <Typography id="outdoor-typo" gutterBottom>
-        Prefer Indoor Outdoor
-      </Typography>
-      <Slider 
-        value={props.outDoor} 
-        onChange={handleOutDoorChange} 
-        aria-labelledby="continuous-slider" 
-        step= {0.01}
-        min = {0}
-        max = {1}
-      />
-      <Typography id="compact-typo" gutterBottom>
-        Compactness
-      </Typography>
-      <Slider 
-        value={props.compactness} 
-        onChange={handleCompactnessChange} 
-        aria-labelledby="continuous-slider" 
-        step= {0.01}
-        min = {0}
-        max = {1}
-      />
+    <div className={classes.root} style={{paddingTop: 4, paddingLeft: 10}}>
       <form className={classes.container} noValidate>
         <TextField
+          style={{paddingRight: 20}}
           id="departHrMin"
           label="Depart Time"
           type="time"
@@ -92,7 +56,6 @@ export default function Preferences(props) {
           value={props.startTime}
           onChange={handleStartTimeChange}
         />
-        <br></br>
         <TextField
           id="backHrMin"
           label="Back Time"
@@ -108,6 +71,43 @@ export default function Preferences(props) {
           onChange={handleBackTimeChange}
         />
       </form>
+      <Typography id="budget-typo" variant="body2" style={{paddingTop: 12}}>
+        Budget
+      </Typography>
+      <Slider
+        defaultValue={2}
+        getAriaValueText={valuetext}
+        aria-labelledby="budget-slider"
+        valueLabelDisplay="auto"
+        step={1}
+        marks
+        min={0}
+        max={4}
+        value={props.priceLevel}
+        onChange={handlePriceLevelChange}
+      />
+      <Typography id="outdoor-typo" variant="body2" style={{paddingTop: 12}}>
+        Prefer Indoor Outdoor
+      </Typography>
+      <Slider 
+        value={props.outDoor} 
+        onChange={handleOutDoorChange} 
+        aria-labelledby="continuous-slider" 
+        step= {0.01}
+        min = {0}
+        max = {1}
+      />
+      <Typography id="compact-typo" variant="body2" style={{paddingTop: 12}}>
+        Compactness
+      </Typography>
+      <Slider 
+        value={props.compactness} 
+        onChange={handleCompactnessChange} 
+        aria-labelledby="continuous-slider" 
+        step= {0.01}
+        min = {0}
+        max = {1}
+      />
     </div>
   );
 }
