@@ -1,15 +1,17 @@
 import numpy as np
 import os, json, random, math
 
-#####################################################################
-#######  The following are helper functions for computations  #######
-#####################################################################
+###################################################
+#######  Helper functions for computations  #######
+###################################################
 
+# Return the euclidean distance of two coordinates
 def get_euclidean_distance(coordinateA, coordinateB):
     differenceX = coordinateA[0] - coordinateB[0]
     differenceY = coordinateA[1] - coordinateB[1]
     return (differenceX * differenceX + differenceY * differenceY) ** 0.5
 
+# Helper function of shortest path scheduling
 def state_count(state):
     count = -1
     while state:
@@ -17,38 +19,59 @@ def state_count(state):
         state //= 2
     return count
 
-#####################################################################
-###########  The following are spots selection functions  ###########
-#####################################################################
+###################################################
+###########  Spots selection functions  ###########
+###################################################
 
-def get_typelist_by_compactness(compactness):
+# Return attraction-restaurant-hotel type schedule by compactness
+def get_typelist_by_compactness(compactness, start_time, back_time):
     type_list = []
-    if compactness > 0.4: type_list.append('A')
-    type_list.append('R')
-    type_list = type_list + ['A'] * int(compactness*3 + 1)
-    type_list.append('R')
-    if compactness > 0.5: type_list.append('A')
-    type_list.append('H')
-    return type_list, len(type_list) - 3
+    restaurant_and_hotel_cnt = 0
+    if int(start_time[:2]) < 11:
+        if compactness > 0.4: type_list.append('A')
+    if int(start_time[:2]) < 13:
+        type_list.append('R')
+        type_list = type_list + ['A'] * int(compactness*3 + 1)
+        restaurant_and_hotel_cnt += 1
+    if int(back_time[:2]) > 18:
+        type_list.append('R')
+        if compactness > 0.5: type_list.append('A')
+        restaurant_and_hotel_cnt += 1
+    if int(back_time[:2]) > 23:
+        type_list.append('H')
+        restaurant_and_hotel_cnt += 1
+    return type_list, len(type_list) - restaurant_and_hotel_cnt
 
-def aggrgate_rating(spot):
+# Return customized spot rating 
+def aggrgate_rating(spot, places = None):
+    # Reference google users rating
     aggr_rating = math.exp(spot['rating']/2)
+    # Reference app user input 
+    if places != None and spot in places:
+        aggr_rating += 1000
+    # May add other criteria by collecting past usage information 
     return aggr_rating
 
-def spot_selection(spots, num_items):
-    # Randomized selection with high rating higher weighted
+# Return candidate spots
+def spot_selection(spots, num_items, places = None):
+    # Randomized selection with sampling higher rating with higher chance
     randomized_spots = spots.copy()
     for spot_index in range(len(randomized_spots)):
-        randomized_spots[spot_index]['customized_rating'] = aggrgate_rating(randomized_spots[spot_index]) + np.random.normal()
+        randomized_spots[spot_index]['customized_rating'] = aggrgate_rating(randomized_spots[spot_index], places = places) + np.random.normal()
     randomized_spots = sorted(randomized_spots, key=lambda k: -k['customized_rating'])
-    return randomized_spots[:num_items]
+    selected_spots = randomized_spots[:num_items]
+    return sorted(selected_spots, key=lambda k: k['geometry']['location']['lat'])
 
-def get_restaurants_by_price_level(restaurants, price_level, num_items):
+# Return selected restaurants
+def get_restaurants_by_price_level(restaurants, price_level, num_items, places = None):
+    # Filter by indicated price level
     if price_level == 0: price_level = None
     satisfied_restaurants = [r for r in restaurants if r['price_level'] == price_level]
-    return spot_selection(satisfied_restaurants, num_items)
+    return spot_selection(satisfied_restaurants, num_items, places = places)
 
-def get_attractions_by_outdoor(attractions, outdoor, num_items):
+# Return selected attractions
+def get_attractions_by_outdoor(attractions, outdoor, num_items, places = None):
+    # Split into indoor and outdoor attractions by indicated ratio
     indoor_attractions_types = ['place_of_worship', 'museum', 'premise', 'zoo', 'movie_theater', 'bakery']
     indoor_attractions, outdoor_attractions = [], []
     num_outdoor = int(outdoor * num_items)
@@ -59,22 +82,26 @@ def get_attractions_by_outdoor(attractions, outdoor, num_items):
             if indoor_type in attraction['types']: is_indoor = True
         if is_indoor: indoor_attractions.append(attraction)
         else: outdoor_attractions.append(attraction)
-    indoor_selection = spot_selection(indoor_attractions, num_indoor)
-    outdoor_selection = spot_selection(outdoor_attractions, num_outdoor)
+    indoor_selection = spot_selection(indoor_attractions, num_indoor, places = places)
+    outdoor_selection = spot_selection(outdoor_attractions, num_outdoor, places = places)
     total_selection = indoor_selection + outdoor_selection
-    random.shuffle(total_selection)
+    total_selection = sorted(total_selection, key=lambda k: k['geometry']['location']['lat'])
     return total_selection
 
-#####################################################################
-########  The following minimal cost arrangement funcitons   ########
-#####################################################################
+#######################################################
+########  Minimal cost arrangement funcitons   ########
+#######################################################
 
+# Return cost of travelling
 def cost_criteria(spotA, spotB):
+    # Consider geographical distance
     Ax, Ay = spotA['geometry']['location']['lat'], spotA['geometry']['location']['lng']
-    Bx, By = spotA['geometry']['location']['lat'], spotA['geometry']['location']['lng']
+    Bx, By = spotB['geometry']['location']['lat'], spotB['geometry']['location']['lng']
     geographical_distance = get_euclidean_distance((Ax, Ay), (Bx, By))
+    # May consider other criteria by collecting past usage information 
     return geographical_distance
 
+# Efficient algorithm for finding optimal paths
 def shortest_paths_recommandation(spots, type_requirement):
     num_spots = len(spots)
     num_visiting = len(type_requirement)
@@ -106,7 +133,6 @@ def shortest_paths_recommandation(spots, type_requirement):
                 dp_states[state][spot_id] = best_plan
                 if visit_order == num_visiting - 1 and best_plan[0] < best_final_state[0]:
                     best_final_state = (best_plan[0], state, spot_id)
-
     # Retrieve optimal plan under criteria
     routes = []
     final_state = (best_final_state[1], best_final_state[2])
@@ -117,14 +143,32 @@ def shortest_paths_recommandation(spots, type_requirement):
         final_state = next_state
     return routes
 
-#####################################################################
-#######  The following is the main travel planning function   #######
-#####################################################################
+################################################
+#######  Main travel planning function   #######
+################################################
 
-def travel_planner(num_days, price_level, outdoor, compactness, car, scooter, bike, place_ids = None, schedule = None):
-    # Change directory later
+# Return the scheduled tour
+def travel_scheduler(num_days, start_time, back_time, compactness, candrate, type_list, num_attractions, attractions, restaurants, hotels):
+    schedule = []
+    for day in range(num_days):
+        day_start, day_end = "0000", "2400"
+        if day == 0: day_start = start_time
+        if day == num_days-1: day_end = back_time
+        day_type_list, types = get_typelist_by_compactness(compactness, day_start, day_end)
+        spots = attractions[day*num_attractions: (day+1)*num_attractions] + restaurants[day*candrate: (day+1)*candrate] + [hotels[0]]
+        schedule = schedule + shortest_paths_recommandation(spots, day_type_list)
+    places = attractions + restaurants + hotels
+    return {
+        "status": "Success",
+        "message": "Make a new {:d} day(s) plan in Taipei".format(num_days),
+        "places": places,
+        "schedule": schedule
+    }
+
+# Main planner function
+def travel_planner(num_days, price_level, outdoor, compactness, start_time, back_time, place_ids = None, schedule = None):
     # Read parsed data from file
-    data_path = os.path.join(os.getcwd(), '../data')
+    data_path = os.path.join(os.getcwd(), './data')
     objects = {
         'A' : json.load(open(os.path.join(data_path, 'Attraction.json'), 'r')),
         'H' : json.load(open(os.path.join(data_path, 'Homestay.json'), 'r')),
@@ -134,25 +178,17 @@ def travel_planner(num_days, price_level, outdoor, compactness, car, scooter, bi
     if place_ids == None:
         assert schedule == None
         candrate = 2
-        type_list, num_attractions = get_typelist_by_compactness(compactness)
+        type_list, num_attractions = get_typelist_by_compactness(compactness, "0000", "2400")
         attractions = get_attractions_by_outdoor(objects['A'], outdoor, num_days * num_attractions * candrate)
         restaurants = get_restaurants_by_price_level(objects['R'], price_level, num_days * candrate * 2)
         hotels = spot_selection(objects['H'], candrate)
-        schedule = []
-        for day in range(num_days):
-            if day == num_days-1:
-                type_list = type_list[:len(type_list)-3]
-            spots = attractions[day*num_attractions: (day+1)*num_attractions] + restaurants[day*candrate: (day+1)*candrate] + [hotels[0]]
-            schedule = schedule + shortest_paths_recommandation(spots, type_list)
-        places = attractions + restaurants + hotels
-        return {
-            "status": "Success",
-            "message": "Make a new {:d} day(s) plan in Taipei".format(num_days),
-            "places": places,
-            "schedule": schedule
-        }
+        return travel_scheduler(num_days, start_time, back_time, compactness, candrate, type_list, num_attractions, attractions, restaurants, hotels)
+
     else:
         places = [objects[place_id[0]][int(place_id[1:])] for place_id in place_ids]
-        for place in places:
-            if place['id'] not in schedule:
-                schedule.insert(random.randrange(len(schedule)+1), place['id'])
+        candrate = 2
+        type_list, num_attractions = get_typelist_by_compactness(compactness, "0000", "2400")
+        attractions = get_attractions_by_outdoor(objects['A'], outdoor, num_days * num_attractions * candrate, places = places)
+        restaurants = get_restaurants_by_price_level(objects['R'], price_level, num_days * candrate * 2, places = places)
+        hotels = spot_selection(objects['H'], candrate, places = places)
+        return travel_scheduler(num_days, start_time, back_time, compactness, candrate, type_list, num_attractions, attractions, restaurants, hotels)
