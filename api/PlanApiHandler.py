@@ -2,7 +2,7 @@ from datetime import date
 
 from flask_restful import Api, Resource, reqparse
 
-from api.utils import dummy_planner
+from api.utils import travel_planner
 
 
 class PlanApiHandler(Resource):
@@ -39,7 +39,7 @@ class PlanApiHandler(Resource):
     rd = [int(e) for e in args['return_date'].split('-')]
     n_days = (date(*rd) - date(*dd)).days + 1
 
-    places, schedule = dummy_planner(
+    places, schedule = travel_planner(
         n_days, args['price_level'], args['outdoor'], args['compactness'], 
         args['start_time'], args['back_time'],
         args['place_ids'], args['schedule']
