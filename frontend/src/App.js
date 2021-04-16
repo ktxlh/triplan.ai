@@ -56,7 +56,7 @@ function App() {
   return (
     <div className="App">
       <div className="App-header">
-        <img src={Logo} width="225"/>
+        <img src={Logo} width="225"  alt="Logo"/>
       </div>
       <div className="input row">
         <City city={city} onChange={setCity}></City>
