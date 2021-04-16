@@ -3,7 +3,8 @@
 }
 
 .App-header {
-  padding: 4% 4% 0 4%;
+  margin-right: 3%;
+  padding: 4% 6% 0 6%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -13,34 +14,55 @@
   color: black;
 }
 
+.App-footer {
+  margin-top: 100px;
+  width: 100%;
+  bottom: 0;
+  height: 50px;
+  line-height: 50px;
+  background-color: lightgray;
+  text-align: center;
+  font-size: 16px;
+  color: black;
+}
+
 .input {
+  margin-right: 3%;
   padding: 2% 6% 0 6%;
   font-size: 16px;
   color: black;
 }
 
-.input-indented {
-  padding: 2% 6% 0 7%;
-  font-size: 16px;
-  color: black;
-}
-
-.output {
-  padding: 2% 6% 0 7%;
+.indented {
+  margin-right: 3%;
+  padding: 2% 6% 0 7.5%;
   font-size: 16px;
   color: black;
 }
 
 .row {
+  margin-right: 3%;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
 }
 
+#search {
+  margin-right: 3%;
+  margin-top: 2%;
+  padding: 0.8% 2.5%;
+}
+
 .column {
+  margin-right: 3%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+}
+
+#map {
+  margin-right: 3%;
+  margin-top: 0.6%;
 }
