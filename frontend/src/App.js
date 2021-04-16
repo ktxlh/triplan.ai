@@ -9,6 +9,7 @@ import { Schedule, onDragEnd } from './Component/Schedule';
 import callAPIs from './utils';
 import { Button } from '@material-ui/core';
 import withScriptjs from 'react-google-maps/lib/withScriptjs';
+import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 
 function App() {
 
@@ -62,11 +63,9 @@ function App() {
           returnDate={returnDate}
           returnDateOnChange={setReturnDate}
         ></DatePicker>
+        <Button id="search" variant="contained" onClick={onSearchClicked} startIcon={<SearchRoundedIcon/>}>Search</Button>
       </div>
-      <div className = "input-indented column">
-        <Button variant="contained" onClick={onSearchClicked}>Search</Button>
-      </div>
-      <div className="input-indented column">
+      <div className="indented column">
         <Button onClick={() => toggleShow(!show)}>
           {show? "collapse": "other preferences"}
         </Button>
@@ -78,7 +77,7 @@ function App() {
                     backTime={backTime} backTimeOnChange={setBackTime}
                     />}
       </div>
-      <div className="output row">
+      <div className="indented row">
           <AttractionList
             allPlaces={allPlaces}
             schedule={schedule}
@@ -89,14 +88,16 @@ function App() {
             allPlaces={allPlaces}
             onDragEnd={handleDrag}
           />
-          <p>to use map, uncomment the lines below and put your api key inside</p>
-          {/* <MapLoader
-            googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOUR-API-KEY-HERE"
-            loadingElement={<div style={{ height: `100%` }} />}
-            schedule={schedule}
-            allPlaces={allPlaces}
-          /> */}
+          <div id="map">          
+            <MapLoader
+              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4WjMbfr23jFn51SaSvLNuaJ7Hg2WhgUA"
+              loadingElement={<div style={{ height: "100%"}} />}
+              schedule={schedule}
+              allPlaces={allPlaces}
+            />
+          </div>
       </div>
+      <div className="App-footer">created by 😋😋😋.</div>
     </div>
   );
 }

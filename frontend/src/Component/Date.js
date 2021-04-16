@@ -19,7 +19,7 @@ export default function DatePicker(props) {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Grid container justify="space-around">
+      <Grid container justify="space-evenly">
         <KeyboardDatePicker
           disableToolbar
           variant="inline"
@@ -34,6 +34,8 @@ export default function DatePicker(props) {
           }}
         />
         <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
           margin="normal"
           id="Return Date"
           label="Return Date"

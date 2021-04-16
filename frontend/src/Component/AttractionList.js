@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   formControl: {
-    minWidth: 200,
+    minWidth: 225,
     // margin: theme.spacing(3),
   },
 }));
@@ -38,7 +38,7 @@ export function AttractionList(props) {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{paddingLeft: 10}}>
       <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend">Attraction</FormLabel>
         <FormGroup>
