@@ -1,16 +1,30 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { BiRestaurant, BiHotel } from 'react-icons/bi';
+import { MdPlace } from 'react-icons/md';
 
 const grid = 8;
 
-const getItemStyle = (isDragging, draggableStyle) => ({
+const colorMap = {
+    'H': 'MintCream',
+    'A': 'LavenderBlush',
+    'R': 'FloralWhite'
+}
+
+const iconMap = {
+    'H': <BiHotel/>,
+    'A': <MdPlace/>,
+    'R': <BiRestaurant/>
+}
+
+const getItemStyle = (isDragging, draggableStyle, attractionType) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: "none",
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
 
   // change background colour if dragging
-  background: isDragging ? "pink" : "lightgray",
+  background: isDragging ? "pink" : colorMap[attractionType],
 
   // styles we need to apply on draggables
   ...draggableStyle
@@ -73,10 +87,11 @@ export function Schedule(props) {
                         {...provided.dragHandleProps}
                         style={getItemStyle(
                         snapshot.isDragging,
-                        provided.draggableProps.style
+                        provided.draggableProps.style,
+                        item[0]
                         )}
                     >
-                        {props.allPlaces.find(x => x.id === item) ?
+                        {iconMap[item[0]]} {String.fromCharCode(65+index)}. {props.allPlaces.find(x => x.id === item) ?
                         props.allPlaces.find(x => x.id === item).name.substr(0, 10) : "loading"}
                     </div>
                     )}

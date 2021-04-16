@@ -88,14 +88,15 @@ function App() {
             allPlaces={allPlaces}
             onDragEnd={handleDrag}
           />
-          <div id="map">          
+          <p>uncomment and add your key below</p>
+          {/* <div id="map">          
             <MapLoader
-              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4WjMbfr23jFn51SaSvLNuaJ7Hg2WhgUA"
+              googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOURKEY"
               loadingElement={<div style={{ height: "100%"}} />}
               schedule={schedule}
               allPlaces={allPlaces}
             />
-          </div>
+          </div> */}
       </div>
       <div className="App-footer">created by 😋😋😋.</div>
     </div>

@@ -1,5 +1,5 @@
 /*global google*/
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   withGoogleMap,
   GoogleMap,
@@ -21,12 +21,12 @@ export function Map(props) {
     const beginId = props.schedule[0] ? props.schedule[0] : null;
     const endId = (props.schedule.length > 0 && props.schedule[props.schedule.length-1]) ?
                             props.schedule[props.schedule.length-1] : null;
-    const beginLocation = beginId ? props.allPlaces.find(element => element.id == beginId).geometry.location : backupOrigin;
-    const endLocation = endId ? props.allPlaces.find(element => element.id == endId).geometry.location : backupDestination;
+    const beginLocation = beginId ? props.allPlaces.find(element => element.id === beginId).geometry.location : backupOrigin;
+    const endLocation = endId ? props.allPlaces.find(element => element.id === endId).geometry.location : backupDestination;
     const wayPoints = [];
     if(props.schedule && props.allPlaces) {
-      for (var i = 1; i < props.schedule.length-1; ++i) {
-        const loc = props.allPlaces.find(element => element.id == props.schedule[i]).geometry;
+      for (let i = 1; i < props.schedule.length-1; ++i) {
+        const loc = props.allPlaces.find(element => element.id === props.schedule[i]).geometry;
         const locObject = {
           location: new google.maps.LatLng(loc.location.lat,  loc.location.lng)// location: new google.maps.LatLng(loc., loc.lng)
         }
