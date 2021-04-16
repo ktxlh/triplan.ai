@@ -1,20 +1,19 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { BiRestaurant, BiHotel } from 'react-icons/bi';
-import { MdPlace } from 'react-icons/md';
+import { HotelRounded, RoomRounded, RestaurantRounded } from '@material-ui/icons';
 
 const grid = 8;
 
 const colorMap = {
-    'H': 'MintCream',
-    'A': 'LavenderBlush',
-    'R': 'FloralWhite'
+    'H': 'AliceBlue',
+    'A': 'FloralWhite',
+    'R': 'LavenderBlush'
 }
 
 const iconMap = {
-    'H': <BiHotel/>,
-    'A': <MdPlace/>,
-    'R': <BiRestaurant/>
+    'H': <HotelRounded fontSize="small"/>,
+    'A': <RoomRounded fontSize="small"/>,
+    'R': <RestaurantRounded fontSize="small"/>
 }
 
 const getItemStyle = (isDragging, draggableStyle, attractionType) => ({

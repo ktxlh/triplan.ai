@@ -10,6 +10,7 @@ import callAPIs from './utils';
 import { Button } from '@material-ui/core';
 import withScriptjs from 'react-google-maps/lib/withScriptjs';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
+import Logo from './Image/Logo.png';
 
 function App() {
 
@@ -54,7 +55,9 @@ function App() {
 
   return (
     <div className="App">
-      <div className="App-header">Travel Planner</div>
+      <div className="App-header">
+        <img src={Logo} width="225"/>
+      </div>
       <div className="input row">
         <City city={city} onChange={setCity}></City>
         <DatePicker 
@@ -88,15 +91,14 @@ function App() {
             allPlaces={allPlaces}
             onDragEnd={handleDrag}
           />
-          <p>uncomment and add your key below</p>
-          {/* <div id="map">          
+          <div id="map">          
             <MapLoader
-              googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOURKEY"
+              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmqcaIoJGQP6UDlxQ5Nf6aRcKHaRvTewQ"
               loadingElement={<div style={{ height: "100%"}} />}
               schedule={schedule}
               allPlaces={allPlaces}
             />
-          </div> */}
+          </div>
       </div>
       <div className="App-footer">created by 😋😋😋.</div>
     </div>
