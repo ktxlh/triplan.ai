@@ -13,8 +13,8 @@ export function Map(props) {
   
   useEffect(()=>{
     const directionsService = new google.maps.DirectionsService();
-    const backupOrigin = { lat: 40.756795, lng: -73.954298 };
-    const backupDestination = { lat: 41.756795, lng: -78.954298 };
+    const backupOrigin = null; // { lat: 40.756795, lng: -73.954298 };
+    const backupDestination = null; // { lat: 41.756795, lng: -78.954298 };
 
     if(props.allPlaces[0]) console.log(props.allPlaces[0].geometry.location);
 
@@ -54,8 +54,8 @@ export function Map(props) {
 
     const GoogleMapExample = withGoogleMap((props) => (
       <GoogleMap
-        defaultCenter={{ lat: 40.756795, lng: -73.954298 }}
-        defaultZoom={13}
+        defaultCenter={{ lat: 25.033964, lng: 121.564468 }}
+        defaultZoom={12}
       >
         <DirectionsRenderer
           directions={state.directions}
