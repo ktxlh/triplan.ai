@@ -155,7 +155,9 @@ def travel_scheduler(num_days, start_time, back_time, compactness, candrate, typ
         if day == 0: day_start = start_time
         if day == num_days-1: day_end = back_time
         day_type_list, types = get_typelist_by_compactness(compactness, day_start, day_end)
-        spots = attractions[day*num_attractions: (day+1)*num_attractions] + restaurants[day*candrate*2: (day+1)*candrate*2] + [hotels[0]]
+        target_hotel = hotels[0].copy()
+        if day: target_hotel['id'] = target_hotel['id'] + '-' + str(day)
+        spots = attractions[day*num_attractions: (day+1)*num_attractions] + restaurants[day*candrate*2: (day+1)*candrate*2] + [target_hotel]
         schedule = schedule + shortest_paths_recommandation(spots, day_type_list)
     places = attractions + restaurants + hotels
     return places, schedule
