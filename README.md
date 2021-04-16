@@ -1,5 +1,6 @@
-# yum-travel-planner
+![](https://i.imgur.com/Tsu9xSw.png)
 
+You can find the `triplan.ai` demo [here](http://triplan-ai.herokuapp.com/).
 
 ## First Time Setup
 
