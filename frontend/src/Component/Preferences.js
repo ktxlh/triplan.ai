@@ -37,6 +37,51 @@ export default function Preferences(props) {
     props.backTimeOnChange(newValue);
   }
 
+  const budgetMarks = [
+    {
+      value: 0,
+      label: '$',
+    },
+    {
+      value: 1,
+      label: '$$',
+    },
+    {
+      value: 2,
+      label: '$$$',
+    },
+    {
+      value: 3,
+      label: '$$$$',
+    },
+    {
+      value: 4,
+      label: '$$$$$',
+    },
+  ];
+
+  const indoorMarks = [
+    {
+      value: 0,
+      label: 'indoor',
+    },
+    {
+      value: 1,
+      label: 'outdoor',
+    },
+  ];
+
+  const compactMarks = [
+    {
+      value: 0,
+      label: 'light',
+    },
+    {
+      value: 1,
+      label: 'compact',
+    },
+  ];
+
   
   return (
     <div className={classes.root} style={{paddingTop: 4, paddingLeft: 10}}>
@@ -85,6 +130,7 @@ export default function Preferences(props) {
         max={4}
         value={props.priceLevel}
         onChange={handlePriceLevelChange}
+        marks={budgetMarks}
       />
       <Typography id="outdoor-typo" variant="body2" style={{paddingTop: 12}}>
         Prefer Indoor Outdoor
@@ -96,6 +142,7 @@ export default function Preferences(props) {
         step= {0.01}
         min = {0}
         max = {1}
+        marks={indoorMarks}
       />
       <Typography id="compact-typo" variant="body2" style={{paddingTop: 12}}>
         Compactness
@@ -107,6 +154,7 @@ export default function Preferences(props) {
         step= {0.01}
         min = {0}
         max = {1}
+        marks={compactMarks}
       />
     </div>
   );
