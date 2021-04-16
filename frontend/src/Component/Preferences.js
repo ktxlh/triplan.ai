@@ -125,7 +125,6 @@ export default function Preferences(props) {
         aria-labelledby="budget-slider"
         valueLabelDisplay="auto"
         step={1}
-        marks
         min={0}
         max={4}
         value={props.priceLevel}
