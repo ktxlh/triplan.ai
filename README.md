@@ -1,7 +1,9 @@
-# triplan.ai
+# Triplan.ai
 ![](https://i.imgur.com/Tsu9xSw.png)
 
-You can find the `triplan.ai` demo [here](http://triplan-ai.herokuapp.com/).
+**Plan your next trip with [Triplan.ai](http://triplan-ai.herokuapp.com/)!**
+
+[![Triplan.ai Demo Video](http://img.youtube.com/vi/1WqmcVN2O5g/0.jpg)](http://www.youtube.com/watch?v=1WqmcVN2O5g "Triplan.ai Demo Video")
 
 ## First Time Setup
 
