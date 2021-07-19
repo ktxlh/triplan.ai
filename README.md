@@ -12,7 +12,7 @@ Our business model targets at three types of customers. The application will be 
 
 **Plan your next trip with [Triplan.ai](http://triplan-ai.herokuapp.com/)!**
 
-**Demo**:
+**Demo** (click to watch the video on youtube):
 
 [![Triplan.ai Demo Video](http://img.youtube.com/vi/1WqmcVN2O5g/0.jpg)](http://www.youtube.com/watch?v=1WqmcVN2O5g "Triplan.ai Demo Video")
 
